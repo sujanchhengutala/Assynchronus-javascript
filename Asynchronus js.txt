@@ -1,0 +1,15 @@
+links for study
+1.) what is JSON
+Link==> https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/JSON
+
+2.) jSON.parse()
+Link==> https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse
+
+3.) Callback hell and How to deal with it
+link==> https://www.freecodecamp.org/news/how-to-	deal-with-nested-callbacks-and-avoid-callback-hell-	1bc8dc4a2012/
+
+4.)How to make HTTP requests using Fetch API and Promises
+Link==> https://medium.com/@armando_amador/how-to-make-http-requests-using-fetch-api-and-promises-b0ca7370a444
+
+5.) Creating and consuming Promises in Javascript
+Link==>https://blog.bitsrc.io/understanding-promises-in-javascript-c5248de9ff8f
