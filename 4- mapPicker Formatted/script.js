@@ -1,6 +1,17 @@
 'use strict'
 
-const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+const months = ['January',
+ 'February',
+ 'March',
+  'April',
+  'May', 
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December'];
 
 const form = document.querySelector('.form');
 const containerWorkouts = document.querySelector('.workouts');
@@ -9,48 +20,67 @@ const inputDistance = document.querySelector('.form__input--distance');
 const inputDuration = document.querySelector('.form__input--duration');
 const inputCadence = document.querySelector('.form__input--cadence');
 const inputElevation = document.querySelector('.form__input--elevation');
-let map, mapEvent;
-//console.log(window);
 
-if (navigator.geolocation){
-  navigator.geolocation.getCurrentPosition((position) =>{
-  //console.log(position);
-  //console.log(position.coords);
-  const {latitude, longitude} = position.coords;
-  console.log(latitude, longitude);
-  const coord = [latitude, longitude];
-  console.log(`https://www.google.com/maps/@${latitude},${longitude}`);
+class App{
+  #map;
+  #mapEvent;
+  constructor(){
+    this._getPosition();       //_ is a valid variable identifier in JavaScript, and could theoretically refer to anything. Using _(...) with function syntax implies that _ is a function.
+    form.addEventListener('submit', this._newWorkout.bind(this));
+    inputType.addEventListener('change', this._toggleElevationField);
+  }
+  _getPosition() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        this._loadMap.bind(this),
+        function () {
+          console.log('Can not access your coordinates');
+        }
+      );
+    }
+  }
 
-  map = L.map('map').setView(coord, 13);
+  _loadMap(position) {
+    const { latitude, longitude } = position.coords;
 
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-}).addTo(map);
+    console.log(`https://www.google.com/maps/@${latitude},${longitude}`);
 
-    //console.dir(map);
-    //there is 'on' event for mouse inside prototype chain
-    map.on('click', (mapEvents)=>{
-      mapEvent = mapEvents;
-      //console.log(mapEvent);
-      form.classList.remove('hidden');
-      inputDistance && inputDuration.focus();
-      //inputDuration.focus();
-    })
-}, ()=> {
-  console.log('Can not access your coordinates');
-}) 
+    const coords = [latitude, longitude];
+
+    this.#map = L.map('map').setView(coords, 13);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    }).addTo(this.#map);
+
+    this.#map.on('click', this._showForm.bind(this));
+  }
+  _showForm(mapE) {
+    this.#mapEvent = mapE;
+    form.classList.remove('hidden');
+    inputDistance.focus();
+  }
+  _toggleElevationField(){
+    inputElevation.closest('form__row').classList.toggle('form__row--hidden');
+    inputCadence.closest('form__row').classList.toggle('form__row--hidden');
+  }
+  _newWorkout(e){
+    e.preventDefault();
+    inputDistance.value = inputDuration.value = inputCadence.value = inputElevation.value = "";
+    const {lat, lng} = this.#mapEvent.latlng;
+    L.marker([lat, lng])
+    .addTo(this.#map)
+    .bindPopup(
+      L.popup({
+        maxWidth: 250,
+        minWidth: 100,
+        autoClose: false,
+        closeOnClick: false,
+        className: 'running-popup',
+      })
+    )
+    .setPopupContent('Workouts')
+    .openPopup();
 }
-form.addEventListener('submit', (e)=>{
-  e.preventDefault();
-inputDistance.value = inputDuration.value = inputCadence.value = inputElevation.value = "";
-
-  const {lat, lng} = mapEvent.latlng;
-  console.log(lat, lng);
-  L.marker([lat, lng]).addTo(map)
-  .bindPopup(L.popup( { maxWidth : 300, minWidth : 150, autoClose : false, closeOnClick : false, className: 'running-popup'  } ) ).setPopupContent(`This is marked point`)
-  .openPopup();
-})
-inputType.addEventListener('change', ()=>{
-inputElevation.closest('.form__row').classList.toggle('form__row--hidden');
-inputCadence.closest('.form__row').classList.toggle('form__row--hidden');
-})
+}
+  const app = new App();
