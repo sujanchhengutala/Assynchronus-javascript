@@ -1,0 +1,16 @@
+1.) What is Gitignore and How to Add it to Your Repo
+link==> https://www.freecodecamp.org/news/gitignore-what-is-it-and-how-to-add-to-repo/
+
+2.)Github markdown cheat sheet: Everything you need to know to write README.MD
+link==> https://dev.to/sameerkatija/github-markdown-cheat-sheet-everything-you-need-to-know-to-write-readme-md-2eca
+
+3.) Mastering Markdown
+link==> https://guides.github.com/features/mastering-markdown/
+
+4.)Cast to Number in Javascript using the Unary (+) Operator
+link==> https://medium.com/@nikjohn/cast-to-number-in-javascript-using-the-unary-operator-f4ca67c792ce
+
+5.)JavaScript Array every() Method
+link==> https://www.geeksforgeeks.org/javascript-array-every-method/
+6.)what is the fastest way to load javascript?
+link==>https://www.youtube.com/watch?v=BMuFBYw91UQ
