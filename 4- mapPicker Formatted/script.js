@@ -21,6 +21,42 @@ const inputDuration = document.querySelector('.form__input--duration');
 const inputCadence = document.querySelector('.form__input--cadence');
 const inputElevation = document.querySelector('.form__input--elevation');
 
+class workouts {
+  date = new Date();
+  id =(Date.now() + '').slice(-10);
+
+  constructor(coords, distance, duration){
+    this.coords = coords;
+    this.distance = distance;
+    this.duration = duration;
+  }
+}
+class running extends workouts{
+  type = 'running';
+
+  constructor(coords, distance, duration, cadence){
+    super(coords, distance, duration);
+    this.cadence = cadence;
+    this.calPlace();
+  }
+  calcPlace(){
+    this.place = this.duration/this.distance
+    return this.place;
+  }
+}
+class cycling extends workouts{
+  type = 'cycling';
+
+  constructor(coords, distance, duration, elevation){
+    super(coords, distance, duration);
+    this.elevation = elevation;
+    this.calcSpeed();
+  }
+  calcSpeed(){
+    this.speed = this.distance/(this.duration)/60;
+    return this.place;
+  }
+}
 class App{
   #map;
   #mapEvent;
@@ -61,8 +97,8 @@ class App{
     inputDistance.focus();
   }
   _toggleElevationField(){
-    inputElevation.closest('form__row').classList.toggle('form__row--hidden');
-    inputCadence.closest('form__row').classList.toggle('form__row--hidden');
+    inputElevation.closest('.form__row').classList.toggle('form__row--hidden');
+    inputCadence.closest('.form__row').classList.toggle('form__row--hidden');
   }
   _newWorkout(e){
     e.preventDefault();
